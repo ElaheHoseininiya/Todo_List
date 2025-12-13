@@ -1,4 +1,7 @@
-export const categories = [
+
+ export type SelectItem={label:string;value:string};
+
+export const categories: SelectItem[]= [
     {
         value: "all",
         label: "همه",
@@ -17,7 +20,7 @@ export const categories = [
     },
 ];
 
-export const priorities = [
+export const priorities : SelectItem[]= [
     {
         value: "all",
         label: "همه",
@@ -36,7 +39,7 @@ export const priorities = [
     },
 ];
 
-export const statuses = [
+export const statuses: SelectItem[] = [
     {
         value: "all",
         label: "همه",
@@ -55,7 +58,7 @@ export const statuses = [
     },
 ];
 
-export const sortOptions = [
+export const sortOptions : SelectItem[]= [
     {
         value: "latest",
         label: "جدیدترین ها",
