@@ -1,7 +1,6 @@
 export type StatusType = 'inProgress' | 'notStarted' | 'done';
-
-export type TaskItemProps = {
-  taskId: string | number;
+export type TaskItemType = {
+  taskId: string;
   title: string;
   description: string;
   dueDate: Date;
@@ -10,4 +9,3 @@ export type TaskItemProps = {
   status: StatusType;
   category: string;
 };
-
