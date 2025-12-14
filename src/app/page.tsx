@@ -26,7 +26,14 @@ export default function Home() {
       task.title.includes(searchText) || task.description.includes(searchText)
     );
   });
-
+ filteredTasks.sort((a, b) => {
+    if (sortOption === 'latest') {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    } else if (sortOption === 'oldest') {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    }
+    return 0;
+  });
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16">
       <div className="container h-full">
@@ -42,7 +49,7 @@ export default function Home() {
             setSortOption={setSortOption}
           />
           <Search searchText={searchText} setSearchText={setSearchText} />
-          <Overview />
+          <Overview  taskList={filteredTasks}/>
           <TasksList taskList={filteredTasks} />
           
         </div>
