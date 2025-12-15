@@ -7,15 +7,21 @@ import {
 } from '../../constants/filters';
 import Block from '../layout/block';
 import React from 'react';
+import {
+  CategoryFilter,
+  PriorityFilter,
+  SortOption,
+  StatusFilter,
+} from '../types/filters';
 type FiltersProps = {
-  categoryFilter: string | null;
-  setCategoryFilter: (value: string) => void;
-  priorityFilter: string | null;
-  setPriorityFilter: (value: string) => void;
-  statusFilter: string | null;
-  setStatusFilter: (value: string) => void;
-  sortOption: string | null;
-  setSortOption: (value: string) => void;
+  categoryFilter: CategoryFilter;
+  setCategoryFilter: (value: CategoryFilter) => void;
+  priorityFilter: PriorityFilter;
+  setPriorityFilter: (value: PriorityFilter) => void;
+  statusFilter: StatusFilter;
+  setStatusFilter: (value: StatusFilter) => void;
+  sortOption: SortOption;
+  setSortOption: (value: SortOption) => void;
 };
 
 export default function Filters({
@@ -53,7 +59,7 @@ export default function Filters({
           title="مرتب سازی"
           listItems={sortOptions}
           currentValue={sortOption}
-          onChange={setSortOption}
+          onChange={value => setSortOption(value as SortOption)}
         />
       </div>
     </Block>
