@@ -10,13 +10,13 @@ type OverviewProps = {
 };
 
 export default function Overview({ taskList }: OverviewProps) {
+  const hasTasks = (taskList?.length ?? 0) > 0;
   return (
     <Block>
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">نمای کلی</h2>
         <div className="grid grid-cols-4 gap-4">
-      
-        </div> <NumberBlock
+          <NumberBlock
             number={taskList?.length || 0}
             title="مجموع"
             color="blue"
@@ -36,7 +36,13 @@ export default function Overview({ taskList }: OverviewProps) {
             title="تکمیل شده"
             color="red"
           />
+        </div>
       </div>
+      {!hasTasks && (
+        <p className="text-sm text-gray-500 mt-4">
+          هیچ وظیفه‌ای برای نمایش وجود ندارد.
+        </p>
+      )}
     </Block>
   );
 }

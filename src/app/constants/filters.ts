@@ -1,5 +1,4 @@
-
- import { StatusType } from '../components/types/tasks'
+import { StatusType } from '../components/types/tasks';
 export type SelectItem = { label: string; value: string };
 export type StatusItem = { label: string; value: StatusType | 'all' };
 
@@ -56,7 +55,7 @@ export const statuses: StatusItem[] = [
   },
   {
     value: 'notStarted',
-    label: 'بدون وضعیت',
+    label: 'شروع نشده',
   },
 ];
 

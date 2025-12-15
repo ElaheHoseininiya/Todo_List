@@ -24,6 +24,13 @@ export default function TaskItem({
 }: TaskItemType) {
   const priorityTag = priorityChip[priority] || {};
   const statusTag = statusChip[status] || {};
+  const formatDate = (value: Date | string) => {
+    const parsed =
+      value instanceof Date ? value : new Date(value);
+    return Number.isNaN(parsed.getTime())
+      ? 'نامشخص'
+      : parsed.toLocaleDateString('fa-IR');
+  };
 
   return (
     <Block>
@@ -59,13 +66,13 @@ export default function TaskItem({
         <div className="flex">
           <CalendarIcon className="h-5 w-5 text-gray-500" />
           <span className="text-gray-600 mx-2">
-            {dueDate.toLocaleDateString()}
+            {formatDate(dueDate)}
           </span>
         </div>
         <div className="flex">
           <ClockIcon className="h-5 w-5 text-gray-500" />
           <span className="text-gray-600 mx-2">
-            {createdAt.toLocaleDateString()}
+            {formatDate(createdAt)}
           </span>
         </div>
       </div>
