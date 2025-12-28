@@ -1,41 +1,55 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Block from '../layout/block';
 import NumberBlock from './numberBlock';
 import { TaskItemType } from '../types/tasks';
 import { countTasksByStatus } from '../../../utils/list';
 
-
 type OverviewProps = {
   taskList: TaskItemType[];
 };
 
-export default function Overview({ taskList }: OverviewProps) {
-  const hasTasks = (taskList?.length ?? 0) > 0;
+const Overview: React.FC<OverviewProps> = ({ taskList }) => {
+  const hasTasks = useMemo(() => (taskList?.length ?? 0) > 0, [taskList]);
+
+  if (!taskList) {
+    return (
+      <Block>
+        <p className="text-sm text-gray-500">در حال بارگذاری...</p>
+      </Block>
+    );
+  }
+
+  const totalTasks = useMemo(() => taskList.length || 0, [taskList]);
+  const notStartedCount = useMemo(
+    () => countTasksByStatus(taskList, 'notStarted'),
+    [taskList]
+  );
+  const inProgressCount = useMemo(
+    () => countTasksByStatus(taskList, 'inProgress'),
+    [taskList]
+  );
+  const doneCount = useMemo(
+    () => countTasksByStatus(taskList, 'done'),
+    [taskList]
+  );
+
   return (
     <Block>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h2 className="text-xl font-bold">نمای کلی</h2>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full sm:w-auto">
+          <NumberBlock number={totalTasks} title="مجموع" color="blue" />
           <NumberBlock
-            number={taskList?.length || 0}
-            title="مجموع"
-            color="blue"
-          />
-          <NumberBlock
-            number={countTasksByStatus(taskList, 'notStarted')}
+            number={notStartedCount}
             title="در انتظار"
             color="yellow"
           />
           <NumberBlock
-            number={countTasksByStatus(taskList, 'inProgress')}
+            number={inProgressCount}
             title="در حال انجام"
             color="green"
           />
-          <NumberBlock
-            number={countTasksByStatus(taskList, 'done')}
-            title="تکمیل شده"
-            color="red"
-          />
+          <NumberBlock number={doneCount} title="تکمیل شده" color="red" />
         </div>
       </div>
       {!hasTasks && (
@@ -45,4 +59,6 @@ export default function Overview({ taskList }: OverviewProps) {
       )}
     </Block>
   );
-}
+};
+
+export default React.memo(Overview);

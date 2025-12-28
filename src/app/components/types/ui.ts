@@ -1,5 +1,8 @@
+export type ChipColor = string;
+export type ChipTextColor = string;
+
 export type ChipProps = {
   label: string;
-  color: string;
-  textColor: string;
+  color: ChipColor;
+  textColor: ChipTextColor;
 };

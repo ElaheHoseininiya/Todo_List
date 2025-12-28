@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
-export default function Header() {
+
+const Header: React.FC = () => {
   return (
     <header>
       <div className="shadow-md bg-white">
@@ -12,6 +13,7 @@ export default function Header() {
                 alt="logo"
                 width={32}
                 height={32}
+                sizes="32px"
                 priority
               />
               <h1 className="text-lg font-semibold mr-4">مدیریت وظایف من</h1>
@@ -22,7 +24,8 @@ export default function Header() {
                 alt="User Avatar"
                 width={32}
                 height={32}
-                priority
+                sizes="32px"
+                loading="lazy"
               />
               <span className="mr-2">خوش آمدید!</span>
             </div>
@@ -31,4 +34,6 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};
+
+export default React.memo(Header);

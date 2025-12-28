@@ -14,10 +14,12 @@ export const metadata = {
   title: 'مدیریت وظایف من',
   description: 'داشبورد ساده برای مدیریت و اولویت‌بندی وظایف روزانه',
 };
+
 type RootLayoutProps = {
   children: React.ReactNode;
 };
-export default function RootLayout({ children }: RootLayoutProps) {
+
+const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="fa" dir="rtl">
       <body className={`${rubik.variable} antialiased`}>
@@ -26,4 +28,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

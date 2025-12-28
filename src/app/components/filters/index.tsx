@@ -6,13 +6,14 @@ import {
   sortOptions,
 } from '../../constants/filters';
 import Block from '../layout/block';
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   CategoryFilter,
   PriorityFilter,
   SortOption,
   StatusFilter,
 } from '../types/filters';
+
 type FiltersProps = {
   categoryFilter: CategoryFilter;
   setCategoryFilter: (value: CategoryFilter) => void;
@@ -24,7 +25,7 @@ type FiltersProps = {
   setSortOption: (value: SortOption) => void;
 };
 
-export default function Filters({
+const Filters: React.FC<FiltersProps> = ({
   categoryFilter,
   setCategoryFilter,
   priorityFilter,
@@ -33,11 +34,18 @@ export default function Filters({
   setStatusFilter,
   sortOption,
   setSortOption,
-}: FiltersProps) {
+}) => {
+  const handleSortChange: (value: string) => void = useCallback(
+    (value) => {
+      setSortOption(value as SortOption);
+    },
+    [setSortOption]
+  );
+
   return (
     <Block>
-      <div className="grid grid-cols-4 gap-4">
-         <FilterItem
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <FilterItem
           title="دسته بندی"
           listItems={categories}
           currentValue={categoryFilter}
@@ -59,9 +67,11 @@ export default function Filters({
           title="مرتب سازی"
           listItems={sortOptions}
           currentValue={sortOption}
-          onChange={value => setSortOption(value as SortOption)}
+          onChange={handleSortChange}
         />
       </div>
     </Block>
   );
-}
+};
+
+export default React.memo(Filters);
