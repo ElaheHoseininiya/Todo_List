@@ -4,9 +4,10 @@ import { TaskItemType } from '../types/tasks';
 
 type TasksListProps = {
   taskList: TaskItemType[];
+  onDeleteTask: (taskId: string) => void;
 };
 
-const TasksList: React.FC<TasksListProps> = ({ taskList }) => {
+const TasksList: React.FC<TasksListProps> = ({ taskList, onDeleteTask }) => {
   if (!taskList || taskList.length === 0) {
     return (
       <div className="text-center py-12">
@@ -29,6 +30,7 @@ const TasksList: React.FC<TasksListProps> = ({ taskList }) => {
           priority={task.priority}
           status={task.status}
           category={task.category}
+          onDeleteTask={onDeleteTask}
         />
       ))}
     </div>

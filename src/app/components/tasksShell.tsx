@@ -1,5 +1,6 @@
 'use client';
 import React, { useMemo, useState } from 'react';
+import { getDateTimestamp } from '../../utils/date';
 import Search from './search';
 import Filters from './filters';
 import Overview from './overview';
@@ -23,21 +24,26 @@ const normalizeText: (value: string) => string = (value) =>
 const TasksShell: React.FC<TasksShellProps> = ({
   initialTasks = defaultTasks,
 }) => {
+  const [tasks, setTasks] = useState<TaskItemType[]>(initialTasks);
   const [searchText, setSearchText] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
   const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>('all');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [sortOption, setSortOption] = useState<SortOption>('latest');
 
+  const handleDeleteTask = (taskId: string) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.taskId !== taskId));
+  };
+
   const filteredTasks = useMemo(() => {
-    if (!initialTasks || initialTasks.length === 0) {
+    if (!tasks || tasks.length === 0) {
       return [];
     }
 
     try {
       const normalizedSearch = normalizeText(searchText);
 
-      return initialTasks.filter((task) => {
+      return tasks.filter((task) => {
         const matchCategory =
           categoryFilter === 'all' || task.category === categoryFilter;
         const matchPriority =
@@ -57,7 +63,7 @@ const TasksShell: React.FC<TasksShellProps> = ({
       console.error('Error filtering tasks:', error);
       return [];
     }
-  }, [categoryFilter, priorityFilter, statusFilter, searchText, initialTasks]);
+  }, [categoryFilter, priorityFilter, statusFilter, searchText, tasks]);
 
   const sortedTasks = useMemo(() => {
     try {
@@ -66,14 +72,14 @@ const TasksShell: React.FC<TasksShellProps> = ({
       if (sortOption === 'latest') {
         return copy.sort(
           (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            getDateTimestamp(b.createdAt) - getDateTimestamp(a.createdAt)
         );
       }
 
       if (sortOption === 'oldest') {
         return copy.sort(
           (a, b) =>
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            getDateTimestamp(a.createdAt) - getDateTimestamp(b.createdAt)
         );
       }
 
@@ -98,7 +104,7 @@ const TasksShell: React.FC<TasksShellProps> = ({
       />
       <Search searchText={searchText} setSearchText={setSearchText} />
       <Overview taskList={sortedTasks} />
-      <TasksList taskList={sortedTasks} />
+      <TasksList taskList={sortedTasks} onDeleteTask={handleDeleteTask} />
     </div>
   );
 };
